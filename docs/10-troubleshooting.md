@@ -52,6 +52,28 @@ tmux list-commands
 
 > 你可以把 `tmux list-keys` 输出贴给我，我可以直接按你的环境帮你逐条排查冲突来源。
 
+### 命令解读
+- `tmux new-session -d -s demo` 后再重复创建
+  - 通过故意触发验证“会话名重复”行为，确认清理策略。
+- `tmux source-file ~/.tmux.conf`
+  - 重载配置，快速确认是否由配置错误引起。
+- `tmux display-message -p '...format...'`
+  - 按 format string 输出运行时变量（终端、尺寸、主机名等）。
+- `tmux set -g default-terminal "..."`
+  - 设置终端能力定义，解决配色/宽高异位。
+- `tmux set -ga terminal-overrides ",xterm-256color:Tc"`
+  - `-a` 追加配置项，`-ga` 表示全局追加。
+- `tmux refresh-client -S`
+  - 强制刷新客户端绘制，常用于布局错位后立刻恢复显示。
+- `ps -axo pid,command | grep -E 'tmux|tmux: server'`
+  - 查旧服务进程；`kill -9` 可作为最后手段前清理。
+- `tmux -L testserver ls`
+  - 用 `-L` 指定备用 socket 名，避免默认 socket 冲突。
+- `tmux list-keys / list-commands / show-options`
+  - 查看当前所有键绑定、命令、配置用于定位冲突和默认值覆盖。
+- `tmux kill-server`
+  - 重置整个服务器状态（会终止所有会话），执行前确认任务已保存。
+
 ## 学习闭环建议（实战检验）
 完整流程建议：
 1. 先跑 `00-安装与环境确认`

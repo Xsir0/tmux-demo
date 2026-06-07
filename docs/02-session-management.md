@@ -28,6 +28,22 @@ tmux kill-session -t template
 tmux kill-session -t copy-of-template
 ```
 
+## 命令解读
+- `tmux new-session -d -s demo-project -c ~/work/project-a`
+  - `-d` 后台创建；`-s` 会话名；`-c` 指定会话起始目录。
+- `tmux list-sessions`
+  - 列出会话，等价于 `tmux ls`。
+- `tmux rename-session -t demo-project demo-a`
+  - 把 `demo-project` 重命名为 `demo-a`，`-t` 是目标。
+- `tmux new-session -d -s copy-of-template -t template`
+  - 用 `-t` 复制模板会话布局，适合“标准面板模板”复用。
+- `tmux kill-session -t xxx`
+  - 终止指定会话。
+- `tmux kill-server`
+  - 停掉该用户当前 tmux 服务器下所有会话（全清理）。
+- `tmux ls | awk -F: '{print $1}'`
+  - 管道组合：先列会话再按 `:` 截取会话名，常用于脚本清理。
+
 ## 示例 4：按名称清理历史会话
 ```bash
 tmux kill-session -t demo-project

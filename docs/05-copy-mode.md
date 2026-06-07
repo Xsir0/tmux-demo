@@ -43,6 +43,20 @@ tmux kill-session -t copybuf
 
 > 实际粘贴到系统剪贴板通常需要配合 `set-clipboard`、`reattach-to-user-namespace`（macOS）或 `xclip/xsel`（Linux）等环境配置，详情见下一章配置部分。
 
+### 命令解读
+- `tmux capture-pane -p -t <session>`
+  - 把 pane 当前可见文本导出到标准输出，`-p` 直接打印。
+- `tmux capture-pane -J -p -t <session>`
+  - `-J` 合并换行，方便复制到文件。
+- `tmux capture-pane -p -S -200 -t <session>`
+  - `-S` 设置起始行，`-200` 表示从后往前取 200 行。
+- `tmux send-keys -t copybuf "..." C-m`
+  - 向 copybuf 面板输入内容并回车执行。
+- `tmux showb -b 0`
+  - 查看 tmux 复制缓冲区 0 的内容。
+- `tmux new-session -d -s copy-demo ...`
+  - 先创建示例会话；`attach` 让你进入会话体验 `C-b [`、`q` 的交互流程。
+
 ## 下一步
 下一章：把 tmux 变成自己的工具界面（按键和配置）[06 配置篇](./06-keybinds-config.md)
 

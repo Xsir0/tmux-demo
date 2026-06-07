@@ -52,6 +52,22 @@ tmux kill-session -t bundle-demo
 ## 下一步
 更进一步是跨主机、远程会话和共享场景，见：[08 远程与共享](./08-remote-shared-workflows.md)
 
+### 命令解读
+- `tmux new-session -d -s <name> -c <path>`
+  - 启动基础会话并固定初始目录。
+- `tmux new-window -t <session> -n <name>`
+  - 按业务创建窗口，方便按职责分离。
+- `tmux split-window -h/-v -t <target>`
+  - 在目标窗口分屏，横向/纵向。
+- `tmux send-keys -t <target> "..." C-m`
+  - 非交互执行命令并回车，便于脚本化场景复现。
+- `tmux set-window-option -t <session:window> remain-on-exit on`
+  - 任务结束后窗口保持不退出（便于查看最后输出）。
+- `tmux pipe-pane -t <session> -o "cat >> <file>"`
+  - 把 pane 输出追加到文件，`-o` 表示首次输出时触发一次。
+- `tmux capture-pane -p -t <session>:<window> > file`
+  - 把窗口输出抓到文件作为离线证据。
+
 ## 可运行脚本
 
 `scripts/07-scripted-workflows.sh`

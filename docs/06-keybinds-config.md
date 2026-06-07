@@ -54,6 +54,20 @@ tmux set -g status-left '#[bg=blue,fg=white] #S '
 tmux set -g status-right '#[fg=yellow]%Y-%m-%d %H:%M #[fg=green]#h'
 ```
 
+### 命令解读
+- `cat > ~/.tmux.conf <<'EOF' ... EOF`
+  - 写入 tmux 全局配置文件（用户主目录），后续新会话会按此文件加载。
+- `tmux source-file ~/.tmux.conf`
+  - 重新加载当前 tmux 配置，生效新增设置。
+- `set -g ... / setw -g ... / set -g ...`
+  - `-g` 表示全局生效（对 session/window 之外）
+- `tmux bind-key` / `bind-key -n`
+  - 自定义快捷键，`-n` 表示无前缀也可触发，`bind-key` 通常要配合前缀键。
+- `tmux kill-server`
+  - 停掉当前 tmux 服务器，通常用于验证新配置不会污染现有长期会话。
+- `tmux set -g status-interval/status-left-length/status-left/status-right`
+  - 状态栏时间刷新、左侧/右侧显示模板设置。
+
 ## 下一步
 把这些配置能力用于复杂自动化流程，见 [07 脚本化工作流](./07-scripted-workflows.md)
 

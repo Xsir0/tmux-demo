@@ -42,6 +42,18 @@ ssh -t user@remote-server "tmux new-session -d -s build 'cd ~/project && ./gradl
 ssh -t user@remote-server "tmux attach -t build"
 ```
 
+### 命令解读
+- `ssh user@remote-server "tmux ..."`
+  - 在远端执行 tmux 命令，常用于把任务与本地终端网络状态解耦。
+- `tmux new-session -d -s remote-demo/build ...`
+  - 远程后台会话，适合断线后继续跑。
+- `ssh -t ... "tmux attach -t ..."`
+  - `-t` 强制分配终端，使可交互会话重新连接。
+- `tmux -S /tmp/shared.sock new/ls/attach ...`
+  - `-S` 指定自定义 socket 文件，实现同机共享会话控制面。
+- `tmux list-clients / list-sessions`
+  - 查看哪个客户端在共享该 socket，以及当前所有会话。
+
 ## 下一步
 想进一步加生态能力（session 记录、会话自动保存、状态面板），见：[09 插件与高阶增强](./09-plugins-advanced.md)
 

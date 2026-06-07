@@ -53,6 +53,20 @@ tmux kill-session -t pane-demo
 - `C-b o`：面板间跳转
 - `C-b q`：显示面板编号，快速跳转
 
+### 命令解读
+- `tmux split-window -h -t pane-demo`
+  - `-h` 进行左右分割；`-t` 指定目标位置。
+- `tmux select-pane -L/-R -t pane-cmd`
+  - 在面板间向左/右移动焦点。
+- `tmux setw -g synchronize-panes on|off`
+  - 会话级别开启或关闭同步输入，所有面板会一起执行同一输入。
+- `tmux send-keys -t pane-cmd "..." C-m`
+  - 向指定面板发送内容并回车。
+- `tmux select-layout -t pane-demo tiled/even-horizontal/even-vertical`
+  - 直接重排当前窗口布局，不改窗口数量，便于观察并列状态。
+- `tmux kill-session -t pane-demo`
+  - 清理本节示例会话。
+
 ## 下一步
 下一章使用复制模式处理历史日志与内容提取：[05 复制模式](./05-copy-mode.md)
 

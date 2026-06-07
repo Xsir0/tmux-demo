@@ -50,6 +50,22 @@ tmux kill-session -t status-demo
 ## 下一步
 最后看“故障排查”，帮助你快速定位常见问题：[10 真实问题排查](./10-troubleshooting.md)
 
+### 命令解读
+- `git clone https://github.com/tmux-plugins/tpm ...`
+  - 下载插件管理器到本地目录，后续 `~/.tmux/plugins/tpm/tpm` 由 tmux 调用。
+- `set -g @plugin ...`
+  - 在配置文件中声明要加载的 tmux 插件名。
+- `run '~/.tmux/plugins/tpm/tpm'`
+  - 让 tmux 在启动时执行 tpm 命令加载/管理插件。
+- `tmux run-shell '<cmd>'`
+  - 运行外部 shell 命令，常用于一次性刷新插件。
+- `tmux pipe-pane -t <session> -o 'cat >> <path>'`
+  - 把 pane 输出导入文件形成可追踪日志。
+- `tmux set-option -t status-demo status on`
+  - 打开状态栏；`status-interval` 控制刷新频率。
+- `tmux show-options -g status`
+  - 查看全局状态栏最终生效值，排查配置是否生效。
+
 ## 可运行脚本
 
 `scripts/09-plugins-advanced.sh`

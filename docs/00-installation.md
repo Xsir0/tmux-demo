@@ -36,6 +36,14 @@ tmux kill-session -t tmux-hello
 1. `tmux ls` 里能看到 `tmux-hello`。
 2. kill 之后 `tmux ls` 不再显示该会话（若无其他会话则报错 `no server running` 是正常现象）。
 
+### 命令解读
+- `tmux new-session -d -s tmux-hello`
+  - `new-session`：创建会话；`-d` 表示不自动进入；`-s` 指定会话名。
+- `tmux ls`
+  - 列出当前 tmux 服务器下的所有会话。
+- `tmux kill-session -t tmux-hello`
+  - 按 `-t` 目标名字 `tmux-hello` 删除会话，常用于清理示例。
+
 ## 示例 4：新手最常用的交互快捷键
 进入会话前先熟记：
 - `C-b`：前缀键（prefix）

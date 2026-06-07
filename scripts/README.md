@@ -26,5 +26,14 @@ chmod +x scripts/*.sh
 - `REMOTE_HOST`：`08-remote-shared.sh` 时展示可选的 SSH 示例命令。
 - `ALLOW_NETWORK=1`：`09-plugins-advanced.sh` 时允许 clone TPM。
 
-每个脚本都尽量把命令写成可重复执行（session/window/pane 名都带随机后缀），不会覆盖你已有会话。
+参数含义示例：
+- `KEEP_SESSION=1 scripts/07-scripted-workflows.sh`
+  - 保留会话到你可见窗口，便于你手工核验每条命令的实际输出。
+- `AGENT_CMD="codex" KEEP_SESSION=1 scripts/11-agent-integration.sh`
+  - 指定 agent CLI，并保留会话以便观察三栏面板。
+- `REMOTE_HOST=user@server KEEP_SESSION=1 scripts/08-remote-shared.sh`
+  - 指定远端目标并保留会话，先跑连接链路再做远端动作。
+- `ALLOW_NETWORK=1 KEEP_SESSION=1 scripts/09-plugins-advanced.sh`
+  - 允许 TPM 下载，`KEEP_SESSION` 方便你看到 clone/install 后状态。
 
+每个脚本都尽量把命令写成可重复执行（session/window/pane 名都带随机后缀），不会覆盖你已有会话。

@@ -22,3 +22,5 @@
 
 每章脚本文件在 `scripts/` 目录，按编号一一对应（`00-installation-check.sh` 到 `11-agent-integration.sh`）。
 脚本说明在 [`scripts/README.md`](../scripts/README.md)。
+
+每一章现在都加了“命令解读”小节：看不懂某个参数时先读那一节，再执行。
