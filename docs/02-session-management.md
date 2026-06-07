@@ -48,11 +48,20 @@ tmux kill-session -t copy-of-template
 ```bash
 tmux kill-session -t demo-project
 ```
+### 命令解读
+- `tmux kill-session -t demo-project`
+  - 只删掉名为 `demo-project` 的会话。
+  - 适合只下线单个历史实验会话，不影响其他会话。
+  - 常见报错：`can't find session`，通常是会话名拼写或早已退出。
 
 要连同全部会话一起停止：
 ```bash
 tmux kill-server
 ```
+### 命令解读（示例 4.1）
+- `tmux kill-server`
+  - 结束当前 tmux 服务器上的全部会话。
+  - 这是“重置台面”动作，请先确认 `tmux ls` 已不含关键会话。
 
 > `kill-server` 会结束当前 tmux 服务器管理下的全部会话。脚本里用前请确认不会中断正在工作的任务。
 
@@ -60,6 +69,11 @@ tmux kill-server
 ```bash
 tmux ls | awk -F: '{print $1}'
 ```
+### 命令解读
+- `tmux ls`
+  - 列出所有会话，返回格式如 `name: 1 windows (created ...)`。
+- `awk -F: '{print $1}'`
+  - 按冒号分隔取会话名，便于脚本拼接删除/告警逻辑。
 
 输出里会列出会话名，适合你配合 grep 做自动化清理。
 

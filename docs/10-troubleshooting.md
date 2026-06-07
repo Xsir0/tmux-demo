@@ -13,6 +13,15 @@ tmux new-session -d -s demo
 tmux kill-session -t demo
 tmux new-session -d -s demo
 ```
+### 命令解读（示例 1）
+- `tmux new-session -d -s demo`
+  - 首次创建会话：成功建立并返回新会话名 `demo`。
+- 第二次再执行同名创建
+  - 触发预期错误：`failed to create session: duplicate session name`，用于验证冲突路径。
+- `tmux kill-session -t demo`
+  - 清掉冲突会话，用于恢复测试环境。
+- 再次 `tmux new-session -d -s demo`
+  - 通过 cleanup 后再次创建，确认问题可恢复。
 
 ## 示例 2：前缀键无响应
 ```bash
@@ -20,6 +29,13 @@ tmux show-options -g prefix
 tmux show -gv prefix
 tmux source-file ~/.tmux.conf
 ```
+### 命令解读（示例 2）
+- `tmux show-options -g prefix`
+  - 查看当前会话前缀配置的快照（含默认格式）。
+- `tmux show -gv prefix`
+  - 用 `-v` 只取值，便于和脚本/文本比较。
+- `tmux source-file ~/.tmux.conf`
+  - 主动重载后，判断键位异常是否由配置文件写入错误导致。
 
 若你把前缀改了（例如 `C-a`），需保持统一：终端发送和输入法都别打断组合键。
 
@@ -30,6 +46,15 @@ tmux set -g default-terminal "screen-256color"
 tmux set -ga terminal-overrides ",xterm-256color:Tc"
 tmux refresh-client -S
 ```
+### 命令解读（示例 3）
+- `tmux display-message -p 'format'`
+  - 输出终端/尺寸变量，先确认 `pane_width/pane_height`、终端类型。
+- `tmux set -g default-terminal "screen-256color"`
+  - 强制 tmux 通道终端能力定义，解决某些颜色/宽字符问题。
+- `tmux set -ga terminal-overrides ",xterm-256color:Tc"`
+  - 追加 true-color 覆盖，常见于终端颜色显示不准。
+- `tmux refresh-client -S`
+  - 强制刷新客户端，布局错位时立即重绘。
 
 ## 示例 4：tmux 无法启动 / 卡在旧 socket
 ```bash
@@ -42,6 +67,15 @@ tmux -L testserver ls
 ```bash
 tmux kill-server
 ```
+### 命令解读（示例 4）
+- `ps -axo pid,command | grep -E 'tmux|tmux: server'`
+  - 查找当前机器上的 tmux 服务进程。
+- `tmux ls`
+  - 查看默认 socket 下会话状态。
+- `tmux -L testserver ls`
+  - 使用备用 socket 名（`testserver`）规避默认 socket 资源冲突。
+- `tmux kill-server`
+  - 兜底手段：清理卡死服务端，会中断该 socket 下所有会话。
 
 ## 示例 5：查看完整配置与键位用于复现问题
 ```bash
@@ -49,6 +83,13 @@ tmux show-options -g
 tmux list-keys
 tmux list-commands
 ```
+### 命令解读（示例 5）
+- `tmux show-options -g`
+  - 查看全局配置是否被覆盖。
+- `tmux list-keys`
+  - 列出当前有效键位映射，定位快捷键冲突。
+- `tmux list-commands`
+  - 列出可用命令清单，便于判断 `prefix` 命令是否正确识别。
 
 > 你可以把 `tmux list-keys` 输出贴给我，我可以直接按你的环境帮你逐条排查冲突来源。
 

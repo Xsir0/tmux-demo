@@ -8,6 +8,13 @@
 tmux -V
 ```
 
+### 命令解读
+- `tmux -V`
+  - 用途：确认 tmux 主程序是否可执行。
+  - 说明：`-V` 是 version 的缩写，只返回版本号字符串。
+  - 预期输出：`tmux 3.x`（或 `tmux 2.x/4.x`，按你本机版本）
+  - 典型错误：`tmux: command not found` 表示未安装或未在 PATH。
+
 预期：
 ```text
 tmux 3.x
@@ -17,6 +24,13 @@ tmux 3.x
 ```bash
 command -v tmux
 ```
+
+### 命令解读
+- `command -v tmux`
+  - 用途：确认当前 shell 能找到 `tmux` 可执行文件。
+  - 说明：返回的是解析后的路径，不是版本。
+  - 预期输出：如 `/usr/bin/tmux` 或 `/opt/homebrew/bin/tmux`。
+  - 典型错误：无输出表示 `tmux` 不在可搜索路径。
 
 预期：
 ```text

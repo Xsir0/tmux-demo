@@ -9,6 +9,15 @@ ssh user@remote-server "tmux new-session -d -s remote-demo 'cd ~/project && bash
 ssh user@remote-server "tmux ls"
 ssh -t user@remote-server "tmux attach -t remote-demo"
 ```
+### 命令解读
+- `ssh user@remote-server "tmux new-session -d -s remote-demo 'cd ~/project && bash'"`
+  - 先连到远端创建一个后台会话，不占用当前 SSH 会话生命周期。
+  - `-d` 确保远端会话不立刻附着。
+  - 适合后端编译、长任务、日志采集。
+- `ssh user@remote-server "tmux ls"`
+  - 在远端查看会话列表，确认会话已存在。
+- `ssh -t user@remote-server "tmux attach -t remote-demo"`
+  - 带 `-t` 分配终端并 attach 到指定会话；远端 SSH 已断开也可重连。
 
 你断网/掉线后再次登录可继续 `attach`。
 
@@ -18,6 +27,14 @@ tmux -S /tmp/shared.sock new -d -s shared-demo
 tmux -S /tmp/shared.sock ls
 tmux -S /tmp/shared.sock attach -t shared-demo
 ```
+### 命令解读
+- `tmux -S /tmp/shared.sock new -d -s shared-demo`
+  - 用独立 socket 创建会话，避开默认 `~/.tmux/sock`。
+- `tmux -S /tmp/shared.sock ls`
+  - 查看该 socket 下的会话，确认创建成功。
+- `tmux -S /tmp/shared.sock attach -t shared-demo`
+  - 使用同一 socket attach，演示同机多观察端共享。
+  - 常见误区：socket 文件权限不足会导致 attach 失败。
 
 共享同一个 socket 的方式可让两个用户/终端同时观察同一会话。
 
@@ -26,6 +43,11 @@ tmux -S /tmp/shared.sock attach -t shared-demo
 tmux -S /tmp/shared.sock list-clients
 tmux -S /tmp/shared.sock list-sessions
 ```
+### 命令解读（示例 3）
+- `tmux -S /tmp/shared.sock list-clients`
+  - 列出连接到该 socket 的客户端，会话面板共享时有助于审计。
+- `tmux -S /tmp/shared.sock list-sessions`
+  - 查看该 socket 中的全部会话，确认共享范围。
 
 当会话共享时，`set-option -g monitor-activity on` 会有更清晰的活动提示。
 
@@ -41,6 +63,11 @@ ssh -t user@remote-server "tmux new-session -d -s build 'cd ~/project && ./gradl
 ```bash
 ssh -t user@remote-server "tmux attach -t build"
 ```
+### 命令解读（示例 4）
+- `ssh -t user@remote-server "tmux new-session -d -s build 'cd ~/project && ./gradlew build'"`
+  - 后端构建任务放到 tmux，网络抖动不会直接打断构建。
+- `ssh -t user@remote-server "tmux attach -t build"`
+  - 随时恢复到构建会话查看实时日志。
 
 ### 命令解读
 - `ssh user@remote-server "tmux ..."`
