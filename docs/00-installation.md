@@ -1,0 +1,50 @@
+# 00. 安装与环境确认
+
+## 目标
+确认当前机器已安装 tmux，并理解基础使用前的环境约定。
+
+## 示例 1：检查是否安装 tmux
+```bash
+tmux -V
+```
+
+预期：
+```text
+tmux 3.x
+```
+
+## 示例 2：确认 PATH 与可执行权限
+```bash
+command -v tmux
+```
+
+预期：
+```text
+/usr/bin/tmux
+```
+（不同环境会有不同路径）
+
+## 示例 3：检查端口冲突？（不需要端口，但检查终端是否支持）
+创建一个最短会话并立刻分离验证：
+```bash
+tmux new-session -d -s tmux-hello
+tmux ls
+tmux kill-session -t tmux-hello
+```
+
+预期：
+1. `tmux ls` 里能看到 `tmux-hello`。
+2. kill 之后 `tmux ls` 不再显示该会话（若无其他会话则报错 `no server running` 是正常现象）。
+
+## 示例 4：新手最常用的交互快捷键
+进入会话前先熟记：
+- `C-b`：前缀键（prefix）
+- `C-b ?`：查看全部快捷键
+- `C-b d`：分离到后台（detach）
+- `C-b :`：命令行模式
+
+接下来可以直接看下一章：[01 快速入门](./01-session-basic.md)
+
+## 可运行脚本
+
+`scripts/00-installation-check.sh`
